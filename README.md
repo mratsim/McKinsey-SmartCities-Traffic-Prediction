@@ -144,12 +144,14 @@ implemented by Google in Tensorflow while the CuDNN were by Nvidia. Google versi
 # Result
 
 Teacher forcing by predicting 48 hours (bassed on real histical values):
-![](teacher_forcing_48h_junction1.png)
-![](teacher_forcing_48h_junction2.png)
-![](teacher_forcing_48h_junction3.png)
-![](teacher_forcing_48h_junction4.png)
+
+![](images/teacher_forcing_48h_junction1.png)
+![](images/teacher_forcing_48h_junction2.png)
+![](images/teacher_forcing_48h_junction3.png)
+![](images/teacher_forcing_48h_junction4.png)
 
 Predicting the whole 3 months based on previous predictions:
+
 ![](images/3_months_predictions_junction1.png)
 ![](images/3_months_predictions_junction2.png)
 ![](images/3_months_predictions_junction3.png)

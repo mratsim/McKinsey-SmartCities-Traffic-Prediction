@@ -62,7 +62,7 @@ def attention_n_days_ago(inputs, days_ago):
               activation='softmax',
               name='Attn_DenseClf_' + suffix)(a)
 
-    # Now we convolute so that it average over the whole time window
+    # Now we convolute so that it averages over the whole time window
     feats_depth = int(inputs.shape[2])
     avg = Lambda(lambda x: K.expand_dims(x, axis = 1),
                  name='Attn_Unsqueeze_' + suffix)(inputs)
@@ -141,9 +141,9 @@ def Net(num_feats, seq_len, num_hidden, num_outputs):
 Important note: make sure to use CUDNNGru and CUDNNLSTM because the default GRU and LSTM are
 implemented by Google in Tensorflow while the CuDNN were by Nvidia. Google version is **slow**
 
-# Result
+# Results
 
-Teacher forcing by predicting 48 hours (bassed on real histical values):
+Teacher forcing by predicting 48 hours (bassed on real historical values):
 
 ![](images/teacher_forcing_48h_junction1.png)
 ![](images/teacher_forcing_48h_junction2.png)

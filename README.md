@@ -50,6 +50,34 @@ The direct consequence is unoptimized seq2seq as I couldn't share weights betwee
 I used a multi-attention Recurrent Neural Network defined as below to capture lag features.
 ```Python
 
+def attention_n_days_ago(inputs, days_ago):
+    # inputs.shape = (batch_size, time_steps, input_dim)
+    time_steps = days_ago * 24
+    suffix = str(days_ago) +'_days'
+
+    # We compute the attention over the seq_len
+    a = Permute((2, 1),
+                name='Attn_Permute1_' + suffix)(inputs)
+    a = Dense(time_steps,
+              activation='softmax',
+              name='Attn_DenseClf_' + suffix)(a)
+
+    # Now we convolute so that it average over the whole time window
+    feats_depth = int(inputs.shape[2])
+    avg = Lambda(lambda x: K.expand_dims(x, axis = 1),
+                 name='Attn_Unsqueeze_' + suffix)(inputs)
+    avg = SeparableConv2D(feats_depth, (1,1),
+                          name='Attn_DepthConv_' + suffix)(avg)
+    avg = Lambda(lambda x: K.squeeze(x, 1),
+                 name='Attn_Squeeze_'+ str(days_ago) + '_days')(avg)
+
+
+    a_probs = Permute((2, 1),
+                      name='Attn_Permute1_' + suffix)(avg)
+    # out = Multiply(name='Attn_mul_'+ suffix)([inputs, a_probs])
+    out = Concatenate(name='Attn_cat_'+ suffix)([inputs, a_probs])
+    return out
+
 def Net(num_feats, seq_len, num_hidden, num_outputs):
     x = Input(shape=(seq_len, num_feats))
 

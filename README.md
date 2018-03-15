@@ -167,3 +167,5 @@ I then ran out of time to debug the issue of my model predicting a sinusoid.
 I probably should reimplement that in a dynamic framework like PyTorch to share the state between the RNN.
 Furthermore ARMA/ARIMA capture the general trend but as shown by the 48 hours prediction, my model can capture fast change quite well.
 So stacking both + an xgboost model should improve the results a lot.
+
+An alternative approach would be to use [WaveNet](https://deepmind.com/blog/wavenet-generative-model-raw-audio/) and pure CNNs instead of RNNs
